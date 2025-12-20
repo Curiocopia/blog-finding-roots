@@ -137,7 +137,10 @@ spec:
     nodePort: 30100
 ```
 
-Inspect the values. If you are satisfied, follow the same base recipe for deployment and execution after you create the `demo` namespace.
+Inspect the values. If you are satisfied, apply the kustomization after you create the `demo` namespace.
+```bash
+kubectl apply -k $OVERLAYS/demo 
+```
 
 ## 💭 Feedback and Contributing
 

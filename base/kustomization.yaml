@@ -1,0 +1,75 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+metadata:
+  name: finding-roots
+
+configMapGenerator:
+- name: finding-roots-environment-vars
+  env: finding-roots.env
+
+labels:
+  - pairs:
+      app: blog-finding-roots
+    includeSelectors: true
+
+resources:
+- redis-pod.yaml
+- redis-service.yaml
+- redis-nodeport-service.yaml
+- externalsagemath-service.yaml
+- externalsagemath-endpointslice.yaml
+- nr-deployment.yaml
+- nr-nodeport-service.yaml
+
+patches:
+  - patch: |-
+      apiVersion: v1
+      kind: Service
+      metadata:
+        labels:
+          app: redis-np
+        name: redis-np
+      spec:
+        ports:
+        - name: 6379-6379
+          port: 6379
+          protocol: TCP
+          targetPort: 6379
+          nodePort: 30007
+  - patch: |-
+      apiVersion: v1
+      kind: Service
+      metadata:
+        name: sagemath-service
+      spec:
+        externalIPs:
+          - 192.168.1.100
+    target:
+      kind: Service
+      name: sagemath-service
+  - patch: |-
+      apiVersion: discovery.k8s.io/v1
+      kind: EndpointSlice
+      metadata:
+        name: sagemath-service-endpointslice
+        labels:
+          kubernetes.io/service-name: sagemath-service
+      addressType: IPv4
+      endpoints:
+        - addresses:
+            - "192.168.1.100"
+  - patch: |-
+      apiVersion: v1
+      kind: Service
+      metadata:
+        labels:
+          app: newton-raphson
+        name: newton-raphson
+      spec:
+        ports:
+        - name: 5173-80
+          port: 5173
+          protocol: TCP
+          targetPort: 80
+          nodePort: 30100
+

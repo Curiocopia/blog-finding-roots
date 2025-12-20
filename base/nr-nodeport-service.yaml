@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: newton-raphson
+  name: newton-raphson
+spec:
+  ports:
+  - name: 5173-80
+    port: 5173
+    protocol: TCP
+    targetPort: 80
+  selector:
+    run: newton-raphson
+  type: NodePort

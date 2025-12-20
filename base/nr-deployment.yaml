@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: newton-raphson
+  name: newton-raphson
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: newton-raphson
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        run: newton-raphson
+    spec:
+      volumes:
+      - name: tmp-volume
+        emptyDir: {}
+      containers:
+      - image: my-registry/nr-ui
+        name: nr-ui
+        env:
+        - name: SAGEMATH_API_URL
+          valueFrom:
+            configMapKeyRef:
+              name: finding-roots-environment-vars
+              key: SAGEMATH_API_URL
+        volumeMounts:
+        - name: tmp-volume
+          mountPath: /tmp/video
+        resources: {}
+      - image: my-registry/redis-reader
+        name: redis-reader
+        env:
+        - name: REDIS_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: prime-job-environment-vars
+              key: REDIS_HOST
+        - name: REDIS_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: prime-job-environment-vars
+              key: REDIS_PORT
+        - name: REDIS_DB
+          valueFrom:
+            configMapKeyRef:
+              name: prime-job-environment-vars
+              key: REDIS_DB
+        - name: CONTENT_DIR
+          valueFrom:
+            configMapKeyRef:
+              name: prime-job-environment-vars
+              key: CONTENT_DIR
+        volumeMounts:
+        - name: tmp-volume
+          mountPath: /tmp/video
+        resources: {}
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+status: {}

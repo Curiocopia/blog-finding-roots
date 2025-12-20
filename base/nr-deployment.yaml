@@ -19,8 +19,8 @@ spec:
       - name: tmp-volume
         emptyDir: {}
       containers:
-      - image: my-registry/nr-ui
-        name: nr-ui
+      - image: my-registry/nr-root-finder-ui
+        name: nr-root-finder-ui
         env:
         - name: SAGEMATH_API_URL
           valueFrom:

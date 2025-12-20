@@ -4,8 +4,8 @@ kind: Kustomization
 namespace: demo
 
 images:
-- name: nr-ui
-  newName: my-registry/nr-ui
+- name: nr-root-finder-ui
+  newName: my-registry/nr-root-finder-ui
   newTag: latest
 - name: redis-reader
   newName: my-registry/redis-reader

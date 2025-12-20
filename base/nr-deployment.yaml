@@ -19,7 +19,7 @@ spec:
       - name: tmp-volume
         emptyDir: {}
       containers:
-      - image: my-registry/nr-root-finder-ui
+      - image: nr-root-finder-ui
         name: nr-root-finder-ui
         env:
         - name: SAGEMATH_API_URL
@@ -31,28 +31,28 @@ spec:
         - name: tmp-volume
           mountPath: /tmp/video
         resources: {}
-      - image: my-registry/redis-reader
+      - image: redis-reader
         name: redis-reader
         env:
         - name: REDIS_HOST
           valueFrom:
             configMapKeyRef:
-              name: prime-job-environment-vars
+              name: finding-roots-environment-vars
               key: REDIS_HOST
         - name: REDIS_PORT
           valueFrom:
             configMapKeyRef:
-              name: prime-job-environment-vars
+              name: finding-roots-environment-vars
               key: REDIS_PORT
         - name: REDIS_DB
           valueFrom:
             configMapKeyRef:
-              name: prime-job-environment-vars
+              name: finding-roots-environment-vars
               key: REDIS_DB
         - name: CONTENT_DIR
           valueFrom:
             configMapKeyRef:
-              name: prime-job-environment-vars
+              name: finding-roots-environment-vars
               key: CONTENT_DIR
         volumeMounts:
         - name: tmp-volume

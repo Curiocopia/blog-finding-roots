@@ -51,9 +51,17 @@ tree $TEST_HOME
 ```
 Expect something like:
 ```bash
-/tmp/tmp.OdCWAqtRU4
+/tmp/tmp.MBJcKzcNnP
 └── base
-
+    ├── externalsagemath-endpointslice.yaml
+    ├── externalsagemath-service.yaml
+    ├── finding-roots.env
+    ├── kustomization.yaml
+    ├── nr-deployment.yaml
+    ├── nr-nodeport-service.yaml
+    ├── redis-nodeport-service.yaml
+    ├── redis-pod.yaml
+    └── redis-service.yaml
 ```
 ### The Base Customization
 
@@ -65,29 +73,12 @@ You can run kustomize on the base to emit customized resources to stdout and ins
 ```bash
 kustomize build $BASE
 ```
-More conveniently you can generate the kustomize output and split the resources into their own files and then execute them in the preferred order.
+If you are satisfied:
 ```bash
-RESOURCES=$TEST_HOME/resources
-mkdir -p $RESOURCES
-
-kustomize build $BASE -o $RESOURCES
-
-tree $TEST_HOME
-/tmp/tmp.OdCWAqtRU4
-├── base
-│  
-└── resources
-    ├── 
+kubectl apply -k $BASE 
 ```
-Follow the recipe below (adjust for your own exact filenames) for ConfigMap, Redis Pod and Service and headless SageMath Service and EndPointSlice:
-```bash
-cd $RESOURCES
+Once the resources are running, access the user interface via the NodePort that you selected, `http://<node-IP>:<nodeport>
 
-```
-Once the resources are running, follow the recipe below for filling the Redis queue and processing it.
-```bash
-kubectl apply -f
-```
 ## Create Overlay
 
 Create a `demo` overlay.
@@ -101,13 +92,13 @@ mkdir -p $OVERLAYS/demo
 curl -s -o "$OVERLAYS/demo/#1" "$CONTENT/overlays/demo\
 /{kustomization.yaml,sagemath-endpointslice-patch.yaml,sagemath-service-patch.yaml,redis-nodeport-service-patch.yaml,nr-nodeport-service-patch.yaml,finding-roots-demo.env}"
 ```
-Adjust the parameters as you need. Set `namespace` for all resources and `nr-ui` and `redis-reader` `image` in `kustomization.yaml`:
+Adjust the parameters as you need. Set `namespace` for all resources and `nr-root-finder-ui` and `redis-reader` `image` in `kustomization.yaml`:
 ```yaml
 namespace: demo
 
 images:
-- name: nr-ui
-  newName: my-registry/nr-ui
+- name: nr-root-finder-ui
+  newName: my-registry/nr-root-finder-ui
   newTag: v1
 - name: redis-reader
   newName: my-registry/redis-reader
@@ -145,12 +136,9 @@ spec:
     protocol: TCP
     nodePort: 30100
 ```
-Delete and previous values in the resources and create the new resource files.
-```bash
-rm $RESOURCES/*
-kustomize build $OVERLAYS/demo -o $RESOURCES
-```
+
 Inspect the values. If you are satisfied, follow the same base recipe for deployment and execution after you create the `demo` namespace.
+
 ## 💭 Feedback and Contributing
 
 If you have any other suggestions for improvements or corrections, please drop a note in Discussions.

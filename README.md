@@ -149,7 +149,7 @@ If you have any other suggestions for improvements or corrections, please drop a
 [Finding Roots]: https://curiocopia.com/blog/finding-roots
 [SageMath]: https://sagemath.org
 [Curiocopia]: https://curiocopia.com
-[redis-reader]: https://github.com/Curiocopia/oppermann-worker
-[nr-ui]: https://github.com/Curiocopia/SageMath-backend-service
+[redis-reader]: https://github.com/Curiocopia/redis-reader
+[nr-ui]: https://github.com/Curiocopia/nr-root-finder-ui
 [nr-backend-service]: https://github.com/Curiocopia/nr-backend-service
 [demo]: overlays/demo/

@@ -43,7 +43,7 @@ mkdir -p $BASE
 CONTENT="https://raw.githubusercontent.com/Curiocopia/blog-finding-roots/refs/heads/main"
 
 curl -s -o "$BASE/#1" "$CONTENT/base\
-/{externalsagemath-endpointslice.yaml,externalsagemath-service.yaml,kustomization.yaml,redis-pod.yaml,redis-service.yaml,redis-nodeport-service.yaml,nr-deployment.yaml,nr-nodeport-service.yaml,finding-roots.env}"
+/{externalnr-endpointslice.yaml,externalnr-service.yaml,kustomization.yaml,redis-pod.yaml,redis-service.yaml,redis-nodeport-service.yaml,nr-deployment.yaml,nr-nodeport-service.yaml,finding-roots.env}"
 ```
 Look at the directory:
 ```bash
@@ -53,8 +53,8 @@ Expect something like:
 ```bash
 /tmp/tmp.MBJcKzcNnP
 └── base
-    ├── externalsagemath-endpointslice.yaml
-    ├── externalsagemath-service.yaml
+    ├── externalnr-endpointslice.yaml
+    ├── externalnr-service.yaml
     ├── finding-roots.env
     ├── kustomization.yaml
     ├── nr-deployment.yaml
@@ -90,7 +90,7 @@ mkdir -p $OVERLAYS/demo
 
 ```bash
 curl -s -o "$OVERLAYS/demo/#1" "$CONTENT/overlays/demo\
-/{kustomization.yaml,sagemath-endpointslice-patch.yaml,sagemath-service-patch.yaml,redis-nodeport-service-patch.yaml,nr-nodeport-service-patch.yaml,finding-roots-demo.env}"
+/{kustomization.yaml,nr-endpointslice-patch.yaml,nr-service-patch.yaml,redis-nodeport-service-patch.yaml,nr-nodeport-service-patch.yaml,finding-roots-demo.env}"
 ```
 Adjust the parameters as you need. Set `namespace` for all resources and `nr-root-finder-ui` and `redis-reader` `image` in `kustomization.yaml`:
 ```yaml
@@ -106,12 +106,12 @@ images:
 ```
 Adjust `finding-roots-demo.env` values for ConfigMap creation to use in various reources.
 
-Change the `spec.externalIPs` in the `sagemath-service-patch.yaml` based on the IP address for the `sagemath-backend-service`: 
+Change the `spec.externalIPs` in the `nr-service-patch.yaml` based on the IP address for the `nr-backend-service`: 
 ```yaml
   externalIPs:
   - 192.168.1.200
 ```
-Use the same value for the `endpoints.addresses` in the `sagemath-endpointslice-patch.yaml`: 
+Use the same value for the `endpoints.addresses` in the `nr-endpointslice-patch.yaml`: 
 ```yaml
 endpoints:
 - addresses:

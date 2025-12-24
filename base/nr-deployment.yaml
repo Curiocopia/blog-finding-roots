@@ -22,11 +22,11 @@ spec:
       - image: nr-root-finder-ui
         name: nr-root-finder-ui
         env:
-        - name: SAGEMATH_API_URL
+        - name: NR_API_URL
           valueFrom:
             configMapKeyRef:
               name: finding-roots-environment-vars
-              key: SAGEMATH_API_URL
+              key: NR_API_URL
         volumeMounts:
         - name: tmp-volume
           mountPath: /tmp/video

@@ -16,8 +16,8 @@ resources:
 - redis-pod.yaml
 - redis-service.yaml
 - redis-nodeport-service.yaml
-- externalsagemath-service.yaml
-- externalsagemath-endpointslice.yaml
+- externalnr-service.yaml
+- externalnr-endpointslice.yaml
 - nr-deployment.yaml
 - nr-nodeport-service.yaml
 
@@ -40,20 +40,20 @@ patches:
       apiVersion: v1
       kind: Service
       metadata:
-        name: sagemath-service
+        name: nr-service
       spec:
         externalIPs:
           - 192.168.1.100
     target:
       kind: Service
-      name: sagemath-service
+      name: nr-service
   - patch: |-
       apiVersion: discovery.k8s.io/v1
       kind: EndpointSlice
       metadata:
-        name: sagemath-service-endpointslice
+        name: nr-service-endpointslice
         labels:
-          kubernetes.io/service-name: sagemath-service
+          kubernetes.io/service-name: nr-service
       addressType: IPv4
       endpoints:
         - addresses:

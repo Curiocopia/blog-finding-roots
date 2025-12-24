@@ -1,9 +1,9 @@
 apiVersion: discovery.k8s.io/v1
 kind: EndpointSlice
 metadata:
-  name: sagemath-service-endpointslice
+  name: nr-service-endpointslice
   labels:
-    kubernetes.io/service-name: sagemath-service
+    kubernetes.io/service-name: nr-service
 addressType: IPv4
 ports:
   - name: http

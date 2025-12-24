@@ -20,14 +20,14 @@ configMapGenerator:
   env: finding-roots-demo.env
 
 patches:
-- path: sagemath-service-patch.yaml
+- path: nr-service-patch.yaml
   target:
     kind: Service
-    name: sagemath-service
-- path: sagemath-endpointslice-patch.yaml
+    name: nr-service
+- path: nr-endpointslice-patch.yaml
   target:
     kind: EndpointSlice
-    name: sagemath-service-endpointslice
+    name: nr-service-endpointslice
 - path: redis-nodeport-service-patch.yaml
   target:
     kind: Service
